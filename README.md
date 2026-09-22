@@ -76,7 +76,7 @@ São duas branches, e nada vai para produção sem passar por revisão:
 
 | Branch | O que acontece no push                                    | Onde aparece                              |
 | ------ | --------------------------------------------------------- | ----------------------------------------- |
-| `dev`  | build de preview: sobe a versão **sem** receber tráfego    | URL de versão `*-portfolio.<sub>.workers.dev` |
+| `dev`  | build de preview: sobe a versão **sem** receber tráfego    | `dev-portfolio.<sub>.workers.dev`         |
 | `main` | build de produção: `wrangler deploy`                       | `www.gvsolucoesdigitais.com`              |
 
 O dia a dia é: trabalhar na `dev`, conferir na URL de preview, abrir PR para a `main` e **só publicar
@@ -105,7 +105,7 @@ Workers & Pages → o Worker → **Settings → Build**:
 | ---------------------- | ---------------------------------- |
 | Build command          | `bun run verify && bun run build`  |
 | Deploy command         | `npx wrangler deploy`              |
-| Preview command        | `npx wrangler versions upload`     |
+| Preview command        | `npx wrangler versions upload --preview-alias dev` |
 | Root directory         | `/` (padrão)                       |
 | Build variable         | `BUN_VERSION` = `1.3.13`           |
 
@@ -118,6 +118,13 @@ repo é gerado por 1.3.13.
 
 O `preview_urls: true` no `wrangler.jsonc` é o que dá URL própria a cada versão de preview. Sem ele
 o build de preview sobe a versão, mas não há onde olhar o resultado.
+
+O `--preview-alias dev` fixa o endereço em `dev-portfolio.<sub>.workers.dev`. Sem ele cada versão
+ganha uma URL nova, com o prefixo do ID da versão — você teria que caçar o endereço no log a cada
+build, em vez de ter um ambiente de homologação com endereço estável.
+
+> Preview **nunca** altera o endereço de produção: é esse o ponto. Se você publicou na `dev` e foi
+> conferir na URL de produção, o correto é justamente não ver mudança nenhuma.
 
 O nome em `wrangler.jsonc` precisa ser **idêntico** ao nome do Worker no painel — `wrangler deploy`
 publica para o nome do arquivo, não para o Worker que o painel conectou. Se divergirem, nasce um

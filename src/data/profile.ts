@@ -1,6 +1,8 @@
+import type { StickerKey } from "./skill-stickers";
+
 export type SkillItem = {
   name: string;
-  stickerKey?: string;
+  stickerKey?: StickerKey;
 };
 
 export type SkillCategory = {
@@ -8,15 +10,6 @@ export type SkillCategory = {
   title: string;
   description: string;
   skills: SkillItem[];
-};
-
-export type ExperienceItem = {
-  company: string;
-  role: string;
-  period: string;
-  location?: string;
-  highlights: string[];
-  current?: boolean;
 };
 
 export type RoleItem = {
@@ -36,7 +29,30 @@ export type CertificationItem = {
   title: string;
   issuer: string;
   year: string;
+  featured?: boolean;
 };
+
+export type ProjectItem = {
+  name: string;
+  tagline: string;
+  problem: string;
+  outcome: string;
+  stack: string[];
+  status: "producao" | "desenvolvimento" | "entregue";
+  href?: string;
+};
+
+export type ContactItem = {
+  id: string;
+  label: string;
+  handle: string;
+  href: string;
+  icon: "github" | "linkedin" | "mail" | "whatsapp";
+  primary?: boolean;
+};
+
+/** Origem da URL pública — usada em canonical, og:url e sitemap. */
+export const siteUrl = "https://www.gvsolucoesdigitais.com";
 
 export const profile = {
   name: "Gabriel Victorino",
@@ -44,13 +60,85 @@ export const profile = {
   company: "5by5 Soluções em Sistemas",
   founder: "GV Soluções Digitais",
   location: "Matão, São Paulo — Brasil",
-  experienceYears: "6+ anos",
+  /** Início da carreira — o tempo de experiência é derivado daqui, nunca digitado à mão. */
+  careerStart: "Nov 2019",
+  available: true,
   bio: "Especialista em sistemas backend escaláveis com C#, .NET Core e Python. Atuo na liderança técnica de squads, arquitetura de software, APIs, microserviços e boas práticas — do código à entrega em produção.",
-  highlights: [
-    { label: "Experiência", value: "6+ anos" },
-    { label: "Cargo atual", value: "Tech Lead" },
-    { label: "Especialidade", value: "Backend & Arquitetura" },
-  ],
+  contacts: [
+    {
+      id: "email",
+      label: "E-mail",
+      handle: "gavictorino97@gmail.com",
+      href: "mailto:gavictorino97@gmail.com",
+      icon: "mail",
+      primary: true,
+    },
+    // TODO: preencher `handle` com o número em formato internacional, só
+    // dígitos (ex.: "5516999998888"). O link wa.me e a máscara de exibição
+    // saem daí; enquanto estiver vazio, o contato não é renderizado.
+    {
+      id: "whatsapp",
+      label: "WhatsApp",
+      handle: "",
+      href: "",
+      icon: "whatsapp",
+      primary: true,
+    },
+    {
+      id: "github",
+      label: "GitHub",
+      handle: "@GabrielVictorino97",
+      href: "https://github.com/GabrielVictorino97",
+      icon: "github",
+    },
+    {
+      id: "linkedin",
+      label: "LinkedIn",
+      handle: "gabriel-victorino",
+      href: "https://www.linkedin.com/in/gabriel-victorino/",
+      icon: "linkedin",
+    },
+  ] satisfies ContactItem[],
+  projects: [
+    {
+      name: "Agenda automática por WhatsApp",
+      tagline: "SaaS multi-tenant de agendamento para barbearias",
+      problem:
+        "Barbeiros perdem horário respondendo mensagem a mensagem para marcar corte, e a agenda vive em papel ou na cabeça.",
+      outcome:
+        "Bot conversacional que oferece os horários livres como mensagem interativa e reserva sozinho; o barbeiro só entra quando quer. Motor de slots e máquina de conversa são funções puras, cobertas por 108 testes.",
+      stack: [
+        "TypeScript",
+        "Hono",
+        "Supabase",
+        "PostgreSQL",
+        "WhatsApp Cloud API",
+        "Cloudflare Workers",
+      ],
+      status: "desenvolvimento",
+    },
+    {
+      name: "Timesheet pessoal",
+      tagline: "Registro de jornada offline-first com sync entre aparelhos",
+      problem:
+        "Controlar horas trabalhadas, saldo e hora extra sem depender de conexão nem de planilha.",
+      outcome:
+        "PWA instalável que grava local em IndexedDB e sincroniza com Postgres quando há rede. Cálculo de hora extra por janela padrão configurável, com feriados e períodos fora da jornada.",
+      stack: ["React 19", "TypeScript", "IndexedDB", "Supabase", "Vitest", "Cloudflare"],
+      status: "producao",
+      href: "https://timesheet-pessoal.gavictorino97.workers.dev/",
+    },
+    {
+      name: "Landing page — Samuel Duque",
+      tagline: "Página de apresentação para psicólogo clínico",
+      problem:
+        "Profissional autônomo sem presença própria na web, dependendo só de agregador de links.",
+      outcome:
+        "One-page estática sem build nem framework, com dados estruturados JSON-LD, acessibilidade validada por script e contato direto por WhatsApp.",
+      stack: ["HTML", "CSS", "JavaScript", "JSON-LD", "Cloudflare Pages"],
+      status: "entregue",
+    },
+  ] satisfies ProjectItem[],
   skillCategories: [
     {
       id: "backend",
@@ -134,7 +222,7 @@ export const profile = {
         },
         {
           role: "Desenvolvedor de Software — Pleno",
-          period: "Mai 2022 — Nov 2024",
+          period: "Mai 2022 — Jul 2024",
           highlights: [
             "Backend em projetos de grande porte para aviação e logística.",
             "APIs, integrações e melhoria contínua de qualidade.",
@@ -142,7 +230,7 @@ export const profile = {
         },
         {
           role: "Desenvolvedor de Software — Júnior",
-          period: "Mai 2021 — Mai 2022",
+          period: "Mai 2021 — Abr 2022",
           highlights: [
             "Back-end no App Minha Azul — experiência para colaboradores da Azul.",
             "Foco em performance, manutenibilidade e entrega ágil.",
@@ -179,23 +267,25 @@ export const profile = {
       ],
     },
   ] satisfies CompanyGroup[],
+  // Uma certificação por linha — expandido pelo prettier viram 120 linhas.
+  // prettier-ignore
   certifications: [
-    { title: "Understanding Cloud Computing", issuer: "DataCamp", year: "2026" },
-    { title: "Trilha Engenharia de Dados", issuer: "The Developer's Conference", year: "2025" },
+    { title: "Astronomer Certification for Apache Airflow Fundamentals", issuer: "Astronomer", year: "2023", featured: true },
+    { title: "Trilha Engenharia de Dados", issuer: "The Developer's Conference", year: "2025", featured: true },
+    { title: "Trilha Analytics Engineering", issuer: "The Developer's Conference", year: "2025", featured: true },
+    { title: "Developing Machine Learning Models for Production", issuer: "DataCamp", year: "2025", featured: true },
+    { title: "Fundamentos de Arquitetura de Software", issuer: "desenvolvedor.io", year: "2021", featured: true },
+    { title: "Fundamentos dos Microsserviços", issuer: "balta", year: "2022", featured: true },
     { title: "Trilha Data Science", issuer: "The Developer's Conference", year: "2025" },
-    { title: "Trilha Analytics Engineering", issuer: "The Developer's Conference", year: "2025" },
-    { title: "Developing Machine Learning Models for Production", issuer: "DataCamp", year: "2025" },
+    { title: "Understanding Cloud Computing", issuer: "DataCamp", year: "2026" },
     { title: "MLOps Concepts", issuer: "DataCamp", year: "2025" },
-    { title: "Astronomer Certification for Apache Airflow Fundamentals", issuer: "Astronomer", year: "2023" },
     { title: "Do zero a Engenheiro de Dados - Azure", issuer: "Udemy", year: "2023" },
     { title: "Acesso à dados com .NET, C#, Dapper e SQL Server", issuer: "balta", year: "2022" },
     { title: "Fundamentos do SQL Server", issuer: "balta", year: "2022" },
     { title: "Fundamentos da Orientação a Objetos", issuer: "balta", year: "2022" },
     { title: "Fundamentos do C#", issuer: "balta", year: "2022" },
-    { title: "Fundamentos dos Microsserviços", issuer: "balta", year: "2022" },
     { title: "Introdução ao Entity Framework Core", issuer: "desenvolvedor.io", year: "2022" },
     { title: "Big Data Fundamentos 3.0", issuer: "Data Science Academy", year: "2022" },
-    { title: "Fundamentos de Arquitetura de Software", issuer: "desenvolvedor.io", year: "2021" },
     { title: "Dominando Linq e Lambda Expressions com C#", issuer: "Udemy", year: "2021" },
     { title: "Crie uma Web API com Asp.NET Core 3.1 + EF Core 3.1 + Docker", issuer: "Udemy", year: "2021" },
     { title: "Criando APIs REST com .NET Core, EF, Autenticação e Heroku", issuer: "Udemy", year: "2021" },
@@ -207,9 +297,10 @@ export const profile = {
   ] satisfies CertificationItem[],
   nav: [
     { id: "sobre", label: "Sobre" },
-    { id: "contato", label: "Contato" },
+    { id: "projetos", label: "Projetos" },
     { id: "habilidades", label: "Habilidades" },
     { id: "experiencia", label: "Experiência" },
     { id: "certificacoes", label: "Certificações" },
+    { id: "contato", label: "Contato" },
   ],
 } as const;

@@ -1,7 +1,21 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tanstack-start-app",
-  "compatibility_date": "2025-09-24",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "src/server.ts",
+
+  // ATENÇÃO: este nome precisa ser IDÊNTICO ao do Worker criado no painel da
+  // Cloudflare (Workers & Pages → nome no topo). O `wrangler deploy` publica
+  // para o nome que está aqui, não para o Worker que o painel conectou — se
+  // divergirem, nasce um segundo Worker e o conectado fica vazio.
+  "name": "portfolio",
+  "compatibility_date": "2026-09-22",
+
+  // Site 100% pré-renderizado: não há Worker script (nenhum `main`), só os
+  // arquivos estáticos que o build gera. Se um dia precisar de rota dinâmica,
+  // aí sim entra `main` + binding ASSETS.
+  "assets": {
+    "directory": "./dist/client",
+    // Caminho desconhecido devolve 404 de verdade com a public/404.html.
+    // "single-page-application" devolveria 200 com o index — soft 404, ruim
+    // para busca, e sem ganho aqui porque só existe uma rota.
+    "not_found_handling": "404-page"
+  }
 }

@@ -2,6 +2,9 @@
 @source "../src";
 @import "tw-animate-css";
 
+/* Prende o variant `dark:` à classe `.dark` em vez de prefers-color-scheme.
+   Como nada adiciona essa classe, o site é dark fixo e as classes `dark:`
+   que vêm do shadcn nunca disparam sozinhas em quem usa tema escuro no SO. */
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -33,7 +36,9 @@
 }
 
 :root {
-  --site-header-height: 4.5rem;
+  /* Fonte única da altura do header: usada pelo próprio header, pelo
+     scroll-margin das âncoras e pela camada de stickers. */
+  --site-header-height: 3.5rem;
   --radius: 0.5rem;
   --background: oklch(0.14 0.005 260);
   --foreground: oklch(0.96 0.005 260);
@@ -56,6 +61,12 @@
   --ring: oklch(0.5 0.01 260);
 }
 
+@media (min-width: 640px) {
+  :root {
+    --site-header-height: 4rem;
+  }
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
@@ -67,6 +78,19 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Impede que o header fixo cubra o título da seção ao pular por âncora. */
+.section-anchor {
+  scroll-margin-top: calc(var(--site-header-height) + 1rem);
 }
 
 /* Ícones fixos nas laterais — acompanham a rolagem (abaixo do header) */

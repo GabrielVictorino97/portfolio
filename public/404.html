@@ -1,0 +1,101 @@
+<!doctype html>
+<!--
+  Página 404 estática e autossuficiente.
+
+  Precisa existir como arquivo porque o Cloudflare serve esta página para
+  qualquer caminho desconhecido com status 404 de verdade (ver
+  `assets.not_found_handling` em wrangler.jsonc). O `notFoundComponent` do
+  router só cobre navegação client-side, que neste site de uma rota só
+  praticamente não acontece.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Página não encontrada — Gabriel Victorino</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#1b1c20" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap"
+    />
+    <style>
+      :root {
+        --background: #1b1c20;
+        --foreground: #f4f5f7;
+        --muted: #9699a2;
+        --border: #3a3c44;
+        --accent: #34d399;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1.5rem;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: "Inter", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        max-width: 28rem;
+        text-align: center;
+      }
+      .code {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      h1 {
+        margin: 0.75rem 0 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      p {
+        margin: 0.75rem 0 0;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.75rem;
+        padding: 0.625rem 1.25rem;
+        border-radius: 0.375rem;
+        background: var(--foreground);
+        color: var(--background);
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      a:hover {
+        opacity: 0.9;
+      }
+      a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="code">Erro 404</p>
+      <h1>Página não encontrada</h1>
+      <p>Esta página não existe ou foi movida.</p>
+      <a href="/">Voltar ao início</a>
+    </main>
+  </body>
+</html>

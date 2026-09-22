@@ -1,33 +1,6 @@
-import stickerAngular from "@/assets/sticker-angular.png";
-import stickerCsharp from "@/assets/sticker-csharp.png";
-import stickerDocker from "@/assets/sticker-docker.png";
-import stickerDotnet from "@/assets/sticker-dotnet.png";
-import stickerGit from "@/assets/sticker-git.png";
-import stickerKubernetes from "@/assets/sticker-kubernetes.svg";
-import stickerMongodb from "@/assets/sticker-mongodb.png";
-import stickerPostgres from "@/assets/sticker-postgres.png";
-import stickerPython from "@/assets/sticker-python.png";
-import stickerRabbitmq from "@/assets/sticker-rabbitmq.png";
-import stickerRedis from "@/assets/sticker-redis.png";
-import stickerSqlserver from "@/assets/sticker-sqlserver.png";
-import stickerTypescript from "@/assets/sticker-typescript.png";
-import { floatingStickerLayout, type FloatingStickerLayout, type StickerKey } from "@/data/skill-stickers";
-
-const stickerSrcByKey: Record<StickerKey, string> = {
-  csharp: stickerCsharp,
-  dotnet: stickerDotnet,
-  python: stickerPython,
-  typescript: stickerTypescript,
-  angular: stickerAngular,
-  kubernetes: stickerKubernetes,
-  docker: stickerDocker,
-  redis: stickerRedis,
-  postgres: stickerPostgres,
-  mongodb: stickerMongodb,
-  rabbitmq: stickerRabbitmq,
-  git: stickerGit,
-  sqlserver: stickerSqlserver,
-};
+import { floatingStickerLayout, type FloatingStickerLayout } from "@/data/skill-stickers";
+import { stickerByKey } from "@/data/sticker-assets";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const motionClass: Record<FloatingStickerLayout["motion"], string> = {
   a: "skill-sticker-motion-a",
@@ -36,8 +9,8 @@ const motionClass: Record<FloatingStickerLayout["motion"], string> = {
   d: "skill-sticker-motion-d",
 };
 
-const leftStickers = floatingStickerLayout.filter((s) => s.side === "left");
-const rightStickers = floatingStickerLayout.filter((s) => s.side === "right");
+const leftStickers = floatingStickerLayout.filter((sticker) => sticker.side === "left");
+const rightStickers = floatingStickerLayout.filter((sticker) => sticker.side === "right");
 
 function StickerFigure({ item }: { item: FloatingStickerLayout }) {
   return (
@@ -47,10 +20,12 @@ function StickerFigure({ item }: { item: FloatingStickerLayout }) {
     >
       <div className={`h-full w-full ${item.rotation}`}>
         <img
-          src={stickerSrcByKey[item.key]}
+          src={stickerByKey[item.key]}
           alt=""
-          width={512}
-          height={512}
+          aria-hidden
+          width={160}
+          height={160}
+          decoding="async"
           className="h-full w-full object-contain drop-shadow-[0_6px_24px_rgba(0,0,0,0.55)]"
           draggable={false}
         />
@@ -60,8 +35,14 @@ function StickerFigure({ item }: { item: FloatingStickerLayout }) {
 }
 
 export function FloatingSkillStickers() {
+  // Montagem condicional, não `hidden lg:block`: o browser baixa <img> mesmo
+  // dentro de container com display:none, e no celular esses ícones nunca
+  // aparecem — eram ~1 MB de download puramente desperdiçado.
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  if (!isDesktop) return null;
+
   return (
-    <div className="hero-stickers-layer hidden lg:block" aria-hidden>
+    <div className="hero-stickers-layer" aria-hidden>
       <div className="hero-stickers-rail hero-stickers-rail--left">
         {leftStickers.map((item) => (
           <StickerFigure key={item.key} item={item} />

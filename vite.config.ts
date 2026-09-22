@@ -6,22 +6,24 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-const isGitHubPages = process.env.GITHUB_PAGES === "true";
-// Custom domain (www.gvsolucoesdigitais.com) serves from root, not from /repo-name/
-const pagesBase = "/";
-
-// Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-// @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
+// Alvo de deploy: Cloudflare Workers com static assets (ver wrangler.jsonc),
+// servindo o domínio custom da raiz — daí `base: "/"`.
+//
+// O site é pré-renderizado e publicado como arquivos estáticos: o Worker não
+// tem script, só serve `dist/client`. Por isso o prerender fica ligado e o
+// bundle SSR do preset fica desligado logo abaixo.
 export default defineConfig({
-  // Cloudflare output layout breaks static prerender; disable for GitHub Pages builds.
-  cloudflare: isGitHubPages ? false : undefined,
+  // Este `cloudflare` é o bundle SSR da Cloudflare embutido no preset da
+  // Lovable — coisa diferente do deploy configurado em wrangler.jsonc. O
+  // layout de saída dele quebra o prerender estático, então fica desligado.
+  // A opção mudou de nome em versões posteriores do preset (`cloudflare` →
+  // `nitro`), por isso a dependência é fixada em 1.7.0 no package.json: com
+  // `^`, um minor novo transformaria isto numa chave silenciosamente ignorada.
+  cloudflare: false,
   tanstackStart: {
-    server: { entry: "server" },
-    prerender: {
-      enabled: isGitHubPages,
-    },
+    prerender: { enabled: true },
   },
   vite: {
-    base: pagesBase,
+    base: "/",
   },
 });

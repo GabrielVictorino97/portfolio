@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.gvsolucoesdigitais.com/sitemap.xml
+Sitemap: https://gvsolucoesdigitais.com/sitemap.xml

@@ -3,7 +3,7 @@
 Portfolio pessoal da **GV Soluções Digitais**, construído com TanStack Start, React 19,
 Tailwind CSS 4 e shadcn/ui. Site de página única, pré-renderizado como HTML estático e
 publicado em **Cloudflare Workers** (static assets) em
-[www.gvsolucoesdigitais.com](https://www.gvsolucoesdigitais.com).
+[gvsolucoesdigitais.com](https://gvsolucoesdigitais.com) — o `www` redireciona para o apex.
 
 ## Pré-requisitos
 
@@ -77,7 +77,7 @@ São duas branches, e nada vai para produção sem passar por revisão:
 | Branch | O que acontece no push                                    | Onde aparece                              |
 | ------ | --------------------------------------------------------- | ----------------------------------------- |
 | `dev`  | build de preview: sobe a versão **sem** receber tráfego    | `dev-portfolio.gavictorino97.workers.dev` |
-| `main` | build de produção: `wrangler deploy`                       | `www.gvsolucoesdigitais.com`              |
+| `main` | build de produção: `wrangler deploy`                       | `gvsolucoesdigitais.com`                  |
 
 O dia a dia é: trabalhar na `dev`, conferir na URL de preview, abrir PR para a `main` e **só publicar
 ao dar merge**. O merge é o portão de aprovação — nada chega ao domínio sozinho.
@@ -150,19 +150,39 @@ Nenhum secret é necessário no GitHub: a Cloudflare se autentica sozinha pela i
 
 ### Domínio
 
-O domínio é registrado na **Squarespace** (herdado do Google Domains). Para o Worker aceitar o
-domínio custom, a **zona precisa estar na Cloudflare** — ou seja, os nameservers têm que apontar
-para lá. O registrador continua sendo a Squarespace; só o DNS muda.
+Registrado na **Squarespace** (herdado do Google Domains), com DNS na **Cloudflare** — o registrador
+continua sendo a Squarespace, só os nameservers apontam para cá. Migração concluída.
 
-1. Cloudflare → **Add a site** → `gvsolucoesdigitais.com` → plano Free.
-2. Conferir os registros importados (e-mail em especial: MX, SPF, DKIM). **Antes de trocar os
-   nameservers**, compare com o painel de DNS da Squarespace e recrie na mão o que faltar —
-   a importação automática costuma perder algum registro.
-3. Se houver DNSSEC ativo na Squarespace, **desligue primeiro**: trocar nameservers com DNSSEC
-   ligado derruba o domínio até a propagação terminar.
-4. Na Squarespace, substituir os nameservers pelos dois que a Cloudflare mostrar.
-5. Esperar a zona ficar **Active** na Cloudflare (minutos a algumas horas).
-6. Workers & Pages → `gabrielvictorino-portfolio` → **Settings → Domains & Routes → Add custom
-   domain** → `www.gvsolucoesdigitais.com`. A Cloudflare cria o DNS e emite o certificado sozinha.
-7. Para o apex responder também, adicionar `gvsolucoesdigitais.com` como custom domain, ou criar
-   uma Redirect Rule do apex para `www`.
+Como está montado:
+
+| Endereço | O que é |
+| --- | --- |
+| `gvsolucoesdigitais.com` | **canônico** — Custom Domain do Worker `portfolio` |
+| `www.gvsolucoesdigitais.com` | redirect 301 para o apex, preservando caminho e query |
+
+O `www` **não** é Custom Domain: o diálogo de Custom Domain do Worker só aceita nome de zona, não
+subdomínio. Ele existe como um registro `AAAA` proxiado para `100::` (endereço de descarte) mais uma
+Redirect Rule que intercepta antes de tentar qualquer origem.
+
+Ter só um endereço servindo conteúdo é melhor que dois: evita dividir sinal de SEO entre `www` e
+apex. Por isso `siteUrl` em `src/data/profile.ts`, o `sitemap.xml` e o `robots.txt` apontam todos
+para o apex — se um dia isso inverter, os três precisam mudar junto.
+
+**Não mexa nestes registros** — são o e-mail (Google Workspace):
+
+| Tipo | Nome | Valor |
+| --- | --- | --- |
+| MX | `@` | `smtp.google.com` (prioridade 1) |
+| TXT | `@` | `v=spf1 include:_spf.google.com ~all` |
+| TXT | `google._domainkey` | DKIM |
+
+Para verificar a zona de fora sem depender de cache de resolver (útil em qualquer mudança de DNS):
+
+```bash
+# estado real da delegação e do DNSSEC, direto do registro .com
+curl -s "https://rdap.verisign.com/com/v1/domain/gvsolucoesdigitais.com"
+
+# conteúdo da zona, perguntando ao autoritativo da Cloudflare
+node -e "const {Resolver}=require('node:dns').promises;const r=new Resolver();
+r.setServers(['108.162.195.211']);r.resolveMx('gvsolucoesdigitais.com').then(console.log)"
+```

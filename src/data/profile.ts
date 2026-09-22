@@ -51,8 +51,14 @@ export type ContactItem = {
   primary?: boolean;
 };
 
-/** Origem da URL pública — usada em canonical, og:url e sitemap. */
-export const siteUrl = "https://www.gvsolucoesdigitais.com";
+/**
+ * Origem da URL pública — usada em canonical, og:url e sitemap.
+ *
+ * É o apex, não o `www`: o Worker está conectado ao apex e `www` só existe
+ * como redirect 301 para cá. Apontar canonical para o `www` diria à busca que
+ * o endereço oficial é justamente o que redireciona.
+ */
+export const siteUrl = "https://gvsolucoesdigitais.com";
 
 export const profile = {
   name: "Gabriel Victorino",

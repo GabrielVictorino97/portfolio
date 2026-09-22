@@ -13,6 +13,18 @@
   // build de preview sobe a versão mas não há onde olhar o resultado.
   "preview_urls": true,
 
+  // Logs de EXECUÇÃO do Worker (requisições ao site publicado), visíveis em
+  // Workers & Pages → portfolio → Logs. Não tem relação com o log do build:
+  // falha de Workers Builds aparece no próprio build, independente disto.
+  // `persist` não é campo válido — a configuração aceita só `enabled`,
+  // `head_sampling_rate` e `logs.invocation_logs`.
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "invocation_logs": true
+    }
+  },
+
   // Site 100% pré-renderizado: não há Worker script (nenhum `main`), só os
   // arquivos estáticos que o build gera. Se um dia precisar de rota dinâmica,
   // aí sim entra `main` + binding ASSETS.

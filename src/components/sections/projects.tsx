@@ -10,14 +10,14 @@ const STATUS_LABEL: Record<ProjectItem["status"], string> = {
 };
 
 const STATUS_DOT: Record<ProjectItem["status"], string> = {
-  producao: "bg-emerald-400",
+  producao: "bg-brand",
   desenvolvimento: "bg-amber-400",
   entregue: "bg-sky-400",
 };
 
 function ProjectCard({ project }: { project: ProjectItem }) {
   return (
-    <article className="rounded-xl border border-border bg-card/40 p-5 backdrop-blur-sm transition-colors hover:border-foreground/20">
+    <article className="card-lift rounded-xl border border-border bg-card/40 p-5 backdrop-blur-sm">
       <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
         <h3 className="text-sm font-medium text-foreground">{project.name}</h3>
         <span className="flex shrink-0 items-center gap-1.5 font-mono text-xs text-muted-foreground">

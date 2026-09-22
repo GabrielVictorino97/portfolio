@@ -7,7 +7,7 @@ import { profile, type CertificationItem } from "@/data/profile";
 
 function CertificationCard({ cert }: { cert: CertificationItem }) {
   return (
-    <li className="flex flex-col justify-center rounded-lg border border-border/60 bg-background/50 px-4 py-3">
+    <li className="card-lift flex flex-col justify-center rounded-lg border border-border/60 bg-background/50 px-4 py-3">
       <p className="text-sm font-medium text-foreground">{cert.title}</p>
       <p className="mt-1 font-mono text-xs text-muted-foreground">
         {cert.issuer} · {cert.year}

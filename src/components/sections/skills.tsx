@@ -39,7 +39,7 @@ export function Skills() {
         {profile.skillCategories.map((category) => (
           <article
             key={category.id}
-            className="rounded-xl border border-border bg-card/40 p-5 backdrop-blur-sm transition-colors hover:border-foreground/20"
+            className="card-lift rounded-xl border border-border bg-card/40 p-5 backdrop-blur-sm"
           >
             <h3 className="text-sm font-medium text-foreground">{category.title}</h3>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">

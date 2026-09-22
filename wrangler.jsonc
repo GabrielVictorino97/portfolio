@@ -13,6 +13,27 @@
   // build de preview sobe a versão mas não há onde olhar o resultado.
   "preview_urls": true,
 
+  // Exigido pelo `npx wrangler preview`, que é o preview command padrão do
+  // Workers Builds. Sem este bloco o build de preview falha com
+  // "configuration is missing a 'previews' block" — o build passa inteiro e
+  // só o deploy quebra, o que faz parecer erro de build.
+  // Vazio é válido: só precisa de conteúdo se o preview tiver settings
+  // próprios (vars, bindings, storage apontando para recurso de teste).
+  // Aqui não tem: o site é estático e não usa binding nenhum.
+  "previews": {},
+
+  // Logs de EXECUÇÃO do Worker (requisições ao site publicado), visíveis em
+  // Workers & Pages → portfolio → Logs. Não tem relação com o log do build:
+  // falha de Workers Builds aparece no próprio build, independente disto.
+  // `persist` não é campo válido — a configuração aceita só `enabled`,
+  // `head_sampling_rate` e `logs.invocation_logs`.
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "invocation_logs": true
+    }
+  },
+
   // Site 100% pré-renderizado: não há Worker script (nenhum `main`), só os
   // arquivos estáticos que o build gera. Se um dia precisar de rota dinâmica,
   // aí sim entra `main` + binding ASSETS.

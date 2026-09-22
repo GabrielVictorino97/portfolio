@@ -76,7 +76,7 @@ São duas branches, e nada vai para produção sem passar por revisão:
 
 | Branch | O que acontece no push                                    | Onde aparece                              |
 | ------ | --------------------------------------------------------- | ----------------------------------------- |
-| `dev`  | build de preview: sobe a versão **sem** receber tráfego    | URL de versão `*-portfolio.<sub>.workers.dev` |
+| `dev`  | build de preview: sobe a versão **sem** receber tráfego    | `dev-portfolio.gavictorino97.workers.dev` |
 | `main` | build de produção: `wrangler deploy`                       | `www.gvsolucoesdigitais.com`              |
 
 O dia a dia é: trabalhar na `dev`, conferir na URL de preview, abrir PR para a `main` e **só publicar
@@ -105,7 +105,7 @@ Workers & Pages → o Worker → **Settings → Build**:
 | ---------------------- | ---------------------------------- |
 | Build command          | `bun run verify && bun run build`  |
 | Deploy command         | `npx wrangler deploy`              |
-| Preview command        | `npx wrangler versions upload`     |
+| Preview command        | deixe o padrão (`npx wrangler preview`) |
 | Root directory         | `/` (padrão)                       |
 | Build variable         | `BUN_VERSION` = `1.3.13`           |
 
@@ -118,6 +118,20 @@ repo é gerado por 1.3.13.
 
 O `preview_urls: true` no `wrangler.jsonc` é o que dá URL própria a cada versão de preview. Sem ele
 o build de preview sobe a versão, mas não há onde olhar o resultado.
+
+O bloco **`"previews": {}`** no `wrangler.jsonc` é obrigatório para o `npx wrangler preview`, que é o
+preview command padrão do Workers Builds. Sem ele o build de preview falha com
+`configuration is missing a 'previews' block` — e o sintoma engana, porque o build command passa
+inteiro (lint, testes, vite build, prerender) e só o deploy quebra, parecendo erro de build.
+
+Vazio é válido: o bloco só precisa de conteúdo se o preview tiver settings próprios, como variáveis
+ou bindings apontando para recursos de teste. Aqui não tem — o site é estático e não usa binding.
+
+O endereço do preview é **estável por branch**: a `dev` sempre cai em
+`dev-portfolio.gavictorino97.workers.dev`, sem precisar caçar a URL no log a cada build.
+
+> Preview **nunca** altera o endereço de produção: é esse o ponto. Se você publicou na `dev` e foi
+> conferir na URL de produção, o correto é justamente não ver mudança nenhuma.
 
 O nome em `wrangler.jsonc` precisa ser **idêntico** ao nome do Worker no painel — `wrangler deploy`
 publica para o nome do arquivo, não para o Worker que o painel conectou. Se divergirem, nasce um

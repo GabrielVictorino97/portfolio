@@ -22,7 +22,7 @@ export function SiteHeader() {
           href="#sobre"
           className="shrink-0 font-mono text-[11px] tracking-widest text-muted-foreground transition-colors hover:text-foreground sm:text-xs"
         >
-          GV · SOLUÇÕES DIGITAIS
+          GV · SOLUÇÕES DIGITAIS .
         </a>
 
         <nav className="hidden items-center gap-5 lg:flex" aria-label="Seções do site">

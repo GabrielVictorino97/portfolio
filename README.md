@@ -69,11 +69,29 @@ bun run assets:brand
 
 ## Deploy
 
-Todo push na `main` publica o site. Quem builda e publica é o **Cloudflare Workers Builds**,
-conectado ao repositório pelo painel da Cloudflare — não há passo de deploy no GitHub.
+Quem builda e publica é o **Cloudflare Workers Builds**, conectado ao repositório pelo painel da
+Cloudflare — não há passo de deploy no GitHub.
+
+São duas branches, e nada vai para produção sem passar por revisão:
+
+| Branch | O que acontece no push                                    | Onde aparece                              |
+| ------ | --------------------------------------------------------- | ----------------------------------------- |
+| `dev`  | build de preview: sobe a versão **sem** receber tráfego    | URL de versão `*-portfolio.<sub>.workers.dev` |
+| `main` | build de produção: `wrangler deploy`                       | `www.gvsolucoesdigitais.com`              |
+
+O dia a dia é: trabalhar na `dev`, conferir na URL de preview, abrir PR para a `main` e **só publicar
+ao dar merge**. O merge é o portão de aprovação — nada chega ao domínio sozinho.
+
+```
+commit na dev ──► preview build ──► URL de versão (você confere)
+                                          │
+                              PR dev → main (checks do GitHub)
+                                          │
+                                    merge ──► produção
+```
 
 O workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) roda os **mesmos** portões em
-paralelo, só para aparecerem como check no GitHub (útil em pull request). Ele não publica nada.
+paralelo, para aparecerem como check no GitHub e barrarem o merge do PR. Ele não publica nada.
 
 > Só um dos dois pode publicar. Se um dia voltar o deploy pelo GitHub Actions, **desconecte a
 > integração Git no painel da Cloudflare** antes — com os dois ativos, cada push dispara dois
@@ -87,12 +105,19 @@ Workers & Pages → o Worker → **Settings → Build**:
 | ---------------------- | ---------------------------------- |
 | Build command          | `bun run verify && bun run build`  |
 | Deploy command         | `npx wrangler deploy`              |
+| Preview command        | `npx wrangler versions upload`     |
 | Root directory         | `/` (padrão)                       |
 | Build variable         | `BUN_VERSION` = `1.3.13`           |
 
+Em **Branch control**: production branch = `main`, e **Enable Preview Builds** ligado.
+
 `bun run verify` é lint + typecheck + testes. Está no build command de propósito: assim um teste
-vermelho **falha o build e não publica**. O `BUN_VERSION` é necessário porque o build image vem com
-bun 1.2.15 por padrão e o `bun.lock` deste repo é gerado por 1.3.13.
+vermelho **falha o build e não publica** — vale tanto para preview quanto para produção. O
+`BUN_VERSION` é necessário porque o build image vem com bun 1.2.15 por padrão e o `bun.lock` deste
+repo é gerado por 1.3.13.
+
+O `preview_urls: true` no `wrangler.jsonc` é o que dá URL própria a cada versão de preview. Sem ele
+o build de preview sobe a versão, mas não há onde olhar o resultado.
 
 O nome em `wrangler.jsonc` precisa ser **idêntico** ao nome do Worker no painel — `wrangler deploy`
 publica para o nome do arquivo, não para o Worker que o painel conectou. Se divergirem, nasce um

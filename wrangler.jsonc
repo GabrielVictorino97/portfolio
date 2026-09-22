@@ -8,6 +8,11 @@
   "name": "portfolio",
   "compatibility_date": "2026-09-22",
 
+  // Cada versão enviada por push na `dev` ganha uma URL própria para revisão,
+  // isolada do tráfego de produção. É o ambiente de homologação: sem isso, o
+  // build de preview sobe a versão mas não há onde olhar o resultado.
+  "preview_urls": true,
+
   // Site 100% pré-renderizado: não há Worker script (nenhum `main`), só os
   // arquivos estáticos que o build gera. Se um dia precisar de rota dinâmica,
   // aí sim entra `main` + binding ASSETS.

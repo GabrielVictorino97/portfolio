@@ -6,7 +6,7 @@ name: CI
 # rodando exatamente os mesmos portões do build command da Cloudflare.
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
     branches: [main]
   workflow_dispatch:

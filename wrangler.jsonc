@@ -8,6 +8,17 @@
   "name": "portfolio",
   "compatibility_date": "2026-09-22",
 
+  // Produção responde só em gvsolucoesdigitais.com. Sem isto, o mesmo site
+  // também ficaria público em portfolio.<subdomínio>.workers.dev — dois
+  // endereços servindo conteúdo idêntico, que divide sinal de SEO.
+  //
+  // Precisa estar AQUI, e não só no painel: desligado apenas pelo dashboard,
+  // o próximo `wrangler deploy` religa a rota.
+  //
+  // Não afeta o ambiente de homologação: Preview URLs e Version URLs são
+  // independentes desta chave, então `dev-portfolio.…` continua funcionando.
+  "workers_dev": false,
+
   // Cada versão enviada por push na `dev` ganha uma URL própria para revisão,
   // isolada do tráfego de produção. É o ambiente de homologação: sem isso, o
   // build de preview sobe a versão mas não há onde olhar o resultado.

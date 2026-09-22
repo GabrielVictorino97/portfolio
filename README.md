@@ -76,7 +76,7 @@ São duas branches, e nada vai para produção sem passar por revisão:
 
 | Branch | O que acontece no push                                    | Onde aparece                              |
 | ------ | --------------------------------------------------------- | ----------------------------------------- |
-| `dev`  | build de preview: sobe a versão **sem** receber tráfego    | `dev-portfolio.<sub>.workers.dev`         |
+| `dev`  | build de preview: sobe a versão **sem** receber tráfego    | `dev-portfolio.gavictorino97.workers.dev` |
 | `main` | build de produção: `wrangler deploy`                       | `www.gvsolucoesdigitais.com`              |
 
 O dia a dia é: trabalhar na `dev`, conferir na URL de preview, abrir PR para a `main` e **só publicar
@@ -126,6 +126,9 @@ inteiro (lint, testes, vite build, prerender) e só o deploy quebra, parecendo e
 
 Vazio é válido: o bloco só precisa de conteúdo se o preview tiver settings próprios, como variáveis
 ou bindings apontando para recursos de teste. Aqui não tem — o site é estático e não usa binding.
+
+O endereço do preview é **estável por branch**: a `dev` sempre cai em
+`dev-portfolio.gavictorino97.workers.dev`, sem precisar caçar a URL no log a cada build.
 
 > Preview **nunca** altera o endereço de produção: é esse o ponto. Se você publicou na `dev` e foi
 > conferir na URL de produção, o correto é justamente não ver mudança nenhuma.

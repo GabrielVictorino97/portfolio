@@ -79,13 +79,12 @@ export const profile = {
       icon: "mail",
       primary: true,
     },
-    // TODO: preencher `handle` com o número em formato internacional, só
-    // dígitos (ex.: "5516999998888"). O link wa.me e a máscara de exibição
-    // saem daí; enquanto estiver vazio, o contato não é renderizado.
+    // Só dígitos, em formato internacional. O link wa.me e a máscara de
+    // exibição "(16) 99620-0340" são derivados daqui, em src/lib/contacts.ts.
     {
       id: "whatsapp",
       label: "WhatsApp",
-      handle: "",
+      handle: "5516996200340",
       href: "",
       icon: "whatsapp",
       primary: true,

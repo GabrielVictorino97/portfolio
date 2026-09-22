@@ -42,17 +42,19 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          {/* CTA sempre à vista no header, para o contato não depender de
-              rolar até o fim da página. */}
+          {/* CTA sempre à vista, para o contato não depender de rolar até o
+              fim da página. Tratamento discreto de propósito: quem grita é o
+              botão flutuante; aqui um pill verde sólido destoa de um header
+              monocromático e parece anúncio colado por cima. */}
           {whatsapp && (
             <a
               href={whatsapp.href}
               target="_blank"
               rel="noreferrer noopener"
-              className="hidden items-center gap-1.5 rounded-md bg-brand px-3 py-1.5 text-xs font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:inline-flex"
+              className="hidden items-center gap-2 rounded-lg border border-brand/25 bg-brand/10 px-3.5 py-2 text-sm font-medium text-brand transition-colors hover:border-brand/40 hover:bg-brand/15 sm:inline-flex"
             >
-              <WhatsAppIcon className="h-3.5 w-3.5" />
-              Falar agora
+              <WhatsAppIcon className="h-4 w-4" />
+              Falar comigo
             </a>
           )}
 

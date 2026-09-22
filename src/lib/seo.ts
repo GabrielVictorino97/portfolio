@@ -50,6 +50,12 @@ export function buildSeoLinks(appCssHref: string) {
   ];
 }
 
+/** Telefone em E.164, ou undefined enquanto o número não estiver preenchido. */
+function whatsappE164(): string | undefined {
+  const digits = profile.contacts.find((c) => c.icon === "whatsapp")?.handle.replace(/\D/g, "");
+  return digits && digits.length >= 10 ? `+${digits}` : undefined;
+}
+
 /** Dados estruturados schema.org — ajudam a busca por nome a resolver no site certo. */
 export function buildPersonJsonLd(now = new Date()) {
   const skills = profile.skillCategories.flatMap((category) =>
@@ -65,6 +71,9 @@ export function buildPersonJsonLd(now = new Date()) {
     jobTitle: profile.headline,
     description: profile.bio,
     email: profile.contacts.find((contact) => contact.icon === "mail")?.handle,
+    // E.164. Fica fora de `sameAs`, que é para perfis — telefone tem
+    // propriedade própria no schema.org.
+    telephone: whatsappE164(),
     address: {
       "@type": "PostalAddress",
       addressLocality: "Matão",

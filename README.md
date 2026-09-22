@@ -157,8 +157,14 @@ Como está montado:
 
 | Endereço | O que é |
 | --- | --- |
-| `gvsolucoesdigitais.com` | **canônico** — Custom Domain do Worker `portfolio` |
+| `gvsolucoesdigitais.com` | **único endereço de produção** — Custom Domain do Worker |
 | `www.gvsolucoesdigitais.com` | redirect 301 para o apex, preservando caminho e query |
+| `portfolio.<sub>.workers.dev` | **desativado** (`workers_dev: false`) |
+
+O `workers.dev` de produção fica desligado para o site não responder em dois endereços públicos com
+conteúdo idêntico. Precisa estar no `wrangler.jsonc`, não só no painel: desligado apenas pelo
+dashboard, o próximo `wrangler deploy` religa a rota. Preview URLs são independentes dessa chave,
+então `dev-portfolio.<sub>.workers.dev` continua funcionando.
 
 O `www` **não** é Custom Domain: o diálogo de Custom Domain do Worker só aceita nome de zona, não
 subdomínio. Ele existe como um registro `AAAA` proxiado para `100::` (endereço de descarte) mais uma

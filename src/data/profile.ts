@@ -128,16 +128,6 @@ export const profile = {
       status: "producao",
       href: "https://timesheet-pessoal.gavictorino97.workers.dev/",
     },
-    {
-      name: "Landing page — Samuel Duque",
-      tagline: "Página de apresentação para psicólogo clínico",
-      problem:
-        "Profissional autônomo sem presença própria na web, dependendo só de agregador de links.",
-      outcome:
-        "One-page estática sem build nem framework, com dados estruturados JSON-LD, acessibilidade validada por script e contato direto por WhatsApp.",
-      stack: ["HTML", "CSS", "JavaScript", "JSON-LD", "Cloudflare Pages"],
-      status: "entregue",
-    },
   ] satisfies ProjectItem[],
   skillCategories: [
     {

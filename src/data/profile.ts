@@ -133,6 +133,24 @@ export const profile = {
       status: "producao",
       href: "https://timesheet-pessoal.gavictorino97.workers.dev/",
     },
+    {
+      name: "Este portfólio",
+      tagline: "Site próprio como laboratório de prática contínua",
+      problem:
+        "Um portfólio parado conta menos sobre um dev do que um em evolução: não mostra critério técnico, só um retrato de um dia.",
+      outcome:
+        "Página estática pré-renderizada, servida na borda, com portões de qualidade barrando o deploy e ambiente de homologação antes da produção. Tempo de experiência e durações são derivados das datas, não digitados, e testes de integridade travam a linha do tempo contra sobreposição ou lacuna. Segue mudando — o repositório é público.",
+      stack: [
+        "TanStack Start",
+        "React 19",
+        "TypeScript",
+        "Tailwind 4",
+        "Vitest",
+        "Cloudflare Workers",
+      ],
+      status: "producao",
+      href: "https://github.com/GabrielVictorino97/portfolio",
+    },
   ] satisfies ProjectItem[],
   skillCategories: [
     {

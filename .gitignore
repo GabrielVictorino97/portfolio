@@ -16,6 +16,14 @@ dist-ssr
 .nitro
 *.local
 
+# Segredos — `.env` não estava coberto: `*.local` pega .env.local, mas não .env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

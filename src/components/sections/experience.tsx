@@ -1,5 +1,3 @@
-import { Briefcase } from "lucide-react";
-
 import { Section } from "@/components/section";
 import { profile } from "@/data/profile";
 import { computeCompanyDuration, formatExperienceYears } from "@/lib/duration";
@@ -8,7 +6,7 @@ export function Experience() {
   return (
     <Section
       id="experiencia"
-      icon={<Briefcase className="h-4 w-4" />}
+      number="03"
       title="Experiência"
       subtitle={`Trajetória de ${formatExperienceYears(profile.careerStart)} em desenvolvimento de software.`}
     >
@@ -25,13 +23,13 @@ export function Experience() {
               />
 
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-sm font-medium text-foreground">{group.company}</h3>
-                <span className="shrink-0 font-mono text-xs text-muted-foreground">
+                <h3 className="t-title text-foreground">{group.company}</h3>
+                <span className="t-meta shrink-0 font-mono text-muted-foreground">
                   {computeCompanyDuration(group.roles)}
                 </span>
               </div>
               {group.location && (
-                <p className="mt-0.5 font-mono text-xs text-muted-foreground">{group.location}</p>
+                <p className="t-meta mt-0.5 font-mono text-muted-foreground">{group.location}</p>
               )}
 
               <div className="mt-3 space-y-4">
@@ -41,10 +39,10 @@ export function Experience() {
                     className="rounded-lg border border-border/50 bg-background/40 px-4 py-3"
                   >
                     <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <h4 className="text-sm font-medium text-foreground/90">{role.role}</h4>
-                      <span className="font-mono text-xs text-muted-foreground">{role.period}</span>
+                      <h4 className="text-[15px] font-medium text-foreground/90">{role.role}</h4>
+                      <span className="t-meta font-mono text-muted-foreground">{role.period}</span>
                     </div>
-                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                    <ul className="t-meta mt-2 space-y-1 text-muted-foreground">
                       {role.highlights.map((line) => (
                         <li key={line} className="flex gap-2">
                           <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground/60" />

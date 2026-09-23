@@ -1,4 +1,4 @@
-import { ArrowUpRight, Github, Linkedin, Mail, Send } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 
 import { Section } from "@/components/section";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
@@ -75,7 +75,7 @@ export function Contact() {
   return (
     <Section
       id="contato"
-      icon={<Send className="h-4 w-4" />}
+      number="05"
       title="Contato"
       subtitle="Vamos conversar sobre projetos, oportunidades ou troca técnica. Respondo em até um dia útil."
     >

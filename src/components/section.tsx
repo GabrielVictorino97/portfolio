@@ -1,29 +1,25 @@
 export function Section({
   id,
-  icon,
+  number,
   title,
   subtitle,
   children,
 }: {
   id: string;
-  icon?: React.ReactNode;
+  /** Ordinal exibido antes do título — dá estrutura sem precisar de ícone. */
+  number: string;
   title: string;
   subtitle: string;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="section-anchor pt-14 sm:pt-20">
-      <div className="flex items-center gap-2.5">
-        {icon && (
-          <span className="flex h-7 w-7 items-center justify-center rounded-md border border-brand/25 bg-brand/10 text-brand">
-            {icon}
-          </span>
-        )}
-        <h2 className="font-mono text-xs uppercase tracking-widest text-foreground">{title}</h2>
-        {/* Régua até a margem: dá peso ao título sem precisar aumentar a fonte. */}
-        <span className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
+    <section id={id} className="section-anchor pt-16 sm:pt-24">
+      <div className="flex items-baseline gap-3">
+        <span className="t-label text-brand">{number}</span>
+        <h2 className="t-label text-foreground">{title}</h2>
+        <span className="h-px flex-1 translate-y-[-0.2em] bg-gradient-to-r from-border to-transparent" />
       </div>
-      <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">{subtitle}</p>
+      <p className="t-body mt-3 max-w-xl text-muted-foreground">{subtitle}</p>
       <div className="mt-8">{children}</div>
     </section>
   );

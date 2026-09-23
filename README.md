@@ -67,6 +67,20 @@ bun run assets:optimize
 bun run assets:brand
 ```
 
+## Endereços
+
+| Endereço | O que é | Quando muda |
+| --- | --- | --- |
+| `gvsolucoesdigitais.com` | **produção** | merge na `main` |
+| `www.gvsolucoesdigitais.com` | redirect 301 para o apex | — |
+| `dev-portfolio.gavictorino97.workers.dev` | **homologação** | push na `dev` |
+| `<id>-portfolio.gavictorino97.workers.dev` | uma versão específica, imutável | nunca |
+| `portfolio.gavictorino97.workers.dev` | **desativado** (`workers_dev: false`) | — |
+
+O último merece atenção porque o nome engana: `<worker>.<sub>.workers.dev` é a rota de **produção**
+do Worker, derivada do nome dele. Não dá para apontá-la para uma versão de `dev` — quem faz esse
+papel é o `dev-portfolio.…`, que é o endereço de homologação do dia a dia.
+
 ## Deploy
 
 Quem builda e publica é o **Cloudflare Workers Builds**, conectado ao repositório pelo painel da

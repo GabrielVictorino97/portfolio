@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { FloatingContact } from "@/components/floating-contact";
 import { FloatingSkillStickers } from "@/components/floating-skill-stickers";
 import { SiteHeader } from "@/components/site-header";
 import { Certifications } from "@/components/sections/certifications";
@@ -26,9 +27,12 @@ function Index() {
 
       <SiteHeader />
       <FloatingSkillStickers />
+      <FloatingContact />
 
-      <main id="conteudo" className="relative bg-background text-foreground">
-        <div className="relative z-10 mx-auto max-w-3xl px-4 pb-24 sm:px-6">
+      <main id="conteudo" className="relative overflow-hidden bg-background text-foreground">
+        <div className="page-glow" aria-hidden />
+
+        <div className="relative z-10 mx-auto max-w-3xl px-4 pb-28 sm:px-6">
           <Hero />
           <Projects />
           <Skills />

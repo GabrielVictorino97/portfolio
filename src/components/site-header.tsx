@@ -1,20 +1,24 @@
 import { Menu } from "lucide-react";
 
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { profile } from "@/data/profile";
+import { resolveContacts } from "@/lib/contacts";
 
 function AvailabilityBadge({ long = false }: { long?: boolean }) {
   if (!profile.available) return null;
 
   return (
     <span className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
-      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
+      <span className="availability-dot h-1.5 w-1.5 rounded-full bg-brand" />
       {long ? "Disponível para projetos" : "Disponível"}
     </span>
   );
 }
 
 export function SiteHeader() {
+  const whatsapp = resolveContacts(profile.contacts).find((contact) => contact.icon === "whatsapp");
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/85 backdrop-blur-md supports-[backdrop-filter]:bg-background/70">
       <div className="mx-auto flex h-(--site-header-height) max-w-3xl items-center justify-between gap-2 px-4 sm:px-6">
@@ -38,9 +42,21 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex">
-            <AvailabilityBadge />
-          </div>
+          {/* Sem CTA em caixa aqui: o header é texto mono puro, e qualquer
+              botão com fundo ou borda neste espaço destoa. O contato já está
+              coberto duas vezes — "Contato" na nav e o botão flutuante, que
+              acompanha a rolagem inteira. */}
+          {whatsapp && (
+            <a
+              href={whatsapp.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Falar no WhatsApp"
+              className="hidden text-muted-foreground transition-colors hover:text-brand sm:block"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+            </a>
+          )}
 
           <Sheet>
             <SheetTrigger asChild>
@@ -53,7 +69,7 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[260px] border-l border-border bg-background px-5 py-6"
+              className="w-[270px] border-l border-border bg-background px-5 py-6"
             >
               <nav className="mt-8 flex flex-col gap-1" aria-label="Menu de seções">
                 {profile.nav.map((item) => (
@@ -66,8 +82,20 @@ export function SiteHeader() {
                   </a>
                 ))}
               </nav>
-              <div className="mt-6 border-t border-border pt-5">
+
+              <div className="mt-6 space-y-4 border-t border-border pt-5">
                 <AvailabilityBadge long />
+                {whatsapp && (
+                  <a
+                    href={whatsapp.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground"
+                  >
+                    <WhatsAppIcon className="h-4 w-4" />
+                    Chamar no WhatsApp
+                  </a>
+                )}
               </div>
             </SheetContent>
           </Sheet>

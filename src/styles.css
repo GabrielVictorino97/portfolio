@@ -31,6 +31,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -59,6 +61,12 @@
   --border: oklch(0.26 0.008 260);
   --input: oklch(0.26 0.008 260);
   --ring: oklch(0.5 0.01 260);
+  /* Único acento do site. Já era usado no ponto de "disponível"; passa a
+     marcar também CTA principal, âncoras de seção e estado atual na timeline.
+     Contrastes verificados: 12,57:1 sobre o fundo, 11,34:1 do texto
+     sobre ele. Ambos passam AA para texto normal. */
+  --brand: oklch(0.83 0.16 163);
+  --brand-foreground: oklch(0.2 0.03 163);
 }
 
 @media (min-width: 640px) {
@@ -85,6 +93,69 @@
     html {
       scroll-behavior: auto;
     }
+  }
+}
+
+/* Brilho sutil atrás do topo da página. Puramente decorativo e fixo: não
+   acompanha a rolagem, então some naturalmente ao descer. */
+.page-glow {
+  position: absolute;
+  top: calc(var(--site-header-height) * -1);
+  left: 50%;
+  translate: -50% 0;
+  width: min(60rem, 120vw);
+  height: 28rem;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at top,
+    color-mix(in oklab, var(--brand) 9%, transparent),
+    transparent 62%
+  );
+}
+
+/* Elevação no hover dos cartões. Com `prefers-reduced-motion` a borda ainda
+   muda, então o estado continua perceptível sem movimento. */
+.card-lift {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--brand) 35%, var(--border));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-lift {
+    transition: border-color 0.2s ease;
+  }
+  .card-lift:hover {
+    transform: none;
+  }
+}
+
+/* Pulso do indicador de disponibilidade. */
+@keyframes availability-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand) 55%, transparent);
+  }
+  50% {
+    opacity: 0.85;
+    box-shadow: 0 0 0 4px transparent;
+  }
+}
+
+.availability-dot {
+  animation: availability-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .availability-dot {
+    animation: none;
   }
 }
 

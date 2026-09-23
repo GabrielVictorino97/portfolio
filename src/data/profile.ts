@@ -253,7 +253,7 @@ export const profile = {
       roles: [
         {
           role: "Estagiário de Desenvolvimento",
-          period: "Nov 2019 — Set 2020",
+          period: "Nov 2019 — Ago 2020",
           highlights: [
             "Soluções com .NET Core, Angular, SQL Server e Azure Functions.",
             "Docker, TDD e testes funcionais/unitários.",

@@ -1,5 +1,3 @@
-import { Layers } from "lucide-react";
-
 import { Section } from "@/components/section";
 import { profile } from "@/data/profile";
 import { stickerByKey } from "@/data/sticker-assets";
@@ -9,7 +7,7 @@ function SkillPill({ name, stickerKey }: { name: string; stickerKey?: StickerKey
   const stickerSrc = stickerKey ? stickerByKey[stickerKey] : undefined;
 
   return (
-    <li className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-2.5 py-1 text-xs text-foreground">
+    <li className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-2.5 py-1 text-[13px] text-foreground">
       {stickerSrc && (
         <img
           src={stickerSrc}
@@ -27,32 +25,39 @@ function SkillPill({ name, stickerKey }: { name: string; stickerKey?: StickerKey
   );
 }
 
+/**
+ * Lista de definição, sem moldura de cartão: a categoria fica na coluna da
+ * esquerda e as pills correm à direita. Como cartão, esta seção tinha a mesma
+ * silhueta de Projetos e Certificações — três grades seguidas faziam o site
+ * parecer montado a partir de um template.
+ */
 export function Skills() {
   return (
     <Section
       id="habilidades"
-      icon={<Layers className="h-4 w-4" />}
+      number="02"
       title="Habilidades"
       subtitle="Stack e competências que aplico no dia a dia — alinhadas ao meu perfil profissional."
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <dl className="space-y-7">
         {profile.skillCategories.map((category) => (
-          <article
-            key={category.id}
-            className="card-lift rounded-xl border border-border bg-card/40 p-5 backdrop-blur-sm"
-          >
-            <h3 className="text-sm font-medium text-foreground">{category.title}</h3>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-              {category.description}
-            </p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {category.skills.map((skill) => (
-                <SkillPill key={skill.name} name={skill.name} stickerKey={skill.stickerKey} />
-              ))}
-            </ul>
-          </article>
+          <div key={category.id} className="sm:grid sm:grid-cols-[10rem_1fr] sm:gap-6">
+            <dt className="sm:pt-0.5">
+              <span className="t-title block text-foreground">{category.title}</span>
+              <span className="t-meta mt-0.5 block text-muted-foreground">
+                {category.description}
+              </span>
+            </dt>
+            <dd className="mt-3 sm:mt-0">
+              <ul className="flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <SkillPill key={skill.name} name={skill.name} stickerKey={skill.stickerKey} />
+                ))}
+              </ul>
+            </dd>
+          </div>
         ))}
-      </div>
+      </dl>
     </Section>
   );
 }

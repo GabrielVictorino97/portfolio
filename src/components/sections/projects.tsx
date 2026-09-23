@@ -1,4 +1,4 @@
-import { ArrowUpRight, FolderGit2 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import { Section } from "@/components/section";
 import { profile, type ProjectItem } from "@/data/profile";
@@ -15,53 +15,53 @@ const STATUS_DOT: Record<ProjectItem["status"], string> = {
   entregue: "bg-sky-400",
 };
 
-function ProjectCard({ project }: { project: ProjectItem }) {
+/**
+ * Bloco largo, um por linha — e não cartão numa grade. São poucos projetos e
+ * cada um tem texto de verdade a dizer; espremê-los lado a lado obrigaria a
+ * cortar o conteúdo e deixaria esta seção com a mesma silhueta de todas as
+ * outras.
+ */
+function ProjectBlock({ project, index }: { project: ProjectItem; index: number }) {
   return (
-    <article className="card-lift rounded-xl border border-border bg-card/40 p-5 backdrop-blur-sm">
-      <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
-        <h3 className="text-sm font-medium text-foreground">{project.name}</h3>
-        <span className="flex shrink-0 items-center gap-1.5 font-mono text-xs text-muted-foreground">
+    <article className="relative border-t border-border pt-6 first:border-t-0 first:pt-0">
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span className="t-label text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
+        <h3 className="t-title text-foreground">{project.name}</h3>
+        <span className="t-meta ml-auto flex shrink-0 items-center gap-1.5 text-muted-foreground">
           <span className={`h-1.5 w-1.5 rounded-full ${STATUS_DOT[project.status]}`} />
           {STATUS_LABEL[project.status]}
         </span>
       </div>
 
-      <p className="mt-1 text-xs text-muted-foreground">{project.tagline}</p>
+      <p className="t-meta mt-1 text-muted-foreground">{project.tagline}</p>
 
-      <dl className="mt-4 space-y-3 text-sm leading-relaxed">
+      <div className="mt-5 grid gap-5 sm:grid-cols-2">
         <div>
-          <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-            Problema
-          </dt>
-          <dd className="mt-1 text-sm text-muted-foreground">{project.problem}</dd>
+          <h4 className="t-label text-muted-foreground">Problema</h4>
+          <p className="t-body mt-2 text-muted-foreground">{project.problem}</p>
         </div>
         <div>
-          <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-            Solução
-          </dt>
-          <dd className="mt-1 text-sm text-muted-foreground">{project.outcome}</dd>
+          <h4 className="t-label text-muted-foreground">Solução</h4>
+          <p className="t-body mt-2 text-foreground/85">{project.outcome}</p>
         </div>
-      </dl>
+      </div>
 
-      <ul className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2">
         {project.stack.map((tech) => (
-          <li
-            key={tech}
-            className="rounded-md border border-border bg-background/60 px-2.5 py-1 font-mono text-xs text-muted-foreground"
-          >
+          <span key={tech} className="t-meta font-mono text-muted-foreground">
             {tech}
-          </li>
+          </span>
         ))}
-      </ul>
+      </div>
 
       {project.href && (
         <a
           href={project.href}
           target="_blank"
           rel="noreferrer noopener"
-          className="group mt-5 inline-flex items-center gap-1.5 text-sm text-foreground transition-colors hover:text-foreground/80"
+          className="group mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-brand transition-opacity hover:opacity-80"
         >
-          Ver funcionando
+          {project.href.includes("github.com") ? "Ver o código" : "Ver funcionando"}
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </a>
       )}
@@ -73,13 +73,13 @@ export function Projects() {
   return (
     <Section
       id="projetos"
-      icon={<FolderGit2 className="h-4 w-4" />}
+      number="01"
       title="Projetos"
       subtitle="Produtos que desenhei e construí de ponta a ponta — do domínio ao deploy."
     >
-      <div className="grid gap-4">
-        {profile.projects.map((project) => (
-          <ProjectCard key={project.name} project={project} />
+      <div className="space-y-8">
+        {profile.projects.map((project, index) => (
+          <ProjectBlock key={project.name} project={project} index={index} />
         ))}
       </div>
     </Section>

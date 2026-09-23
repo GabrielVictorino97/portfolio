@@ -96,6 +96,48 @@
   }
 }
 
+/* ── Escala tipográfica ───────────────────────────────────────────────
+   Cinco degraus, cada um com um papel. Antes quase tudo era `text-sm` e
+   `text-xs`, o que achatava a hierarquia: título de cartão e texto corrido
+   tinham o mesmo peso visual. */
+
+/* Nome, no topo da página. Único uso. */
+.t-display {
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+/* Rótulo de seção e metadados: mono, caixa alta, espaçado. */
+.t-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Título de item: projeto, empresa, categoria. */
+.t-title {
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+/* Texto corrido. 15px lê melhor que 14 em parágrafo. */
+.t-body {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+/* Apoio: legenda, stack, período. Piso de 12px. */
+.t-meta {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
 /* Brilho sutil atrás do topo da página. Puramente decorativo e fixo: não
    acompanha a rolagem, então some naturalmente ao descer. */
 .page-glow {
@@ -162,139 +204,4 @@
 /* Impede que o header fixo cubra o título da seção ao pular por âncora. */
 .section-anchor {
   scroll-margin-top: calc(var(--site-header-height) + 1rem);
-}
-
-/* Ícones fixos nas laterais — acompanham a rolagem (abaixo do header) */
-.hero-stickers-layer {
-  position: fixed;
-  top: var(--site-header-height, 4.5rem);
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 5;
-  width: 100%;
-  pointer-events: none;
-}
-
-.hero-stickers-rail {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: max(0px, calc(50% - 25rem));
-  min-width: 5.5rem;
-  max-width: 14rem;
-}
-
-.hero-stickers-rail--left {
-  left: 0;
-  padding-right: 0.75rem;
-}
-
-.hero-stickers-rail--right {
-  right: 0;
-  padding-left: 0.75rem;
-}
-
-.hero-stickers-rail--left .skill-sticker {
-  right: 0.75rem;
-  left: auto;
-}
-
-.hero-stickers-rail--right .skill-sticker {
-  left: 0.75rem;
-  right: auto;
-}
-
-@keyframes skill-sticker-float-a {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -10px;
-  }
-}
-
-@keyframes skill-sticker-float-b {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 6px -8px;
-  }
-}
-
-@keyframes skill-sticker-float-c {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: -8px 6px;
-  }
-}
-
-@keyframes skill-sticker-float-d {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  33% {
-    translate: 5px -6px;
-  }
-  66% {
-    translate: -5px 4px;
-  }
-}
-
-@keyframes skill-sticker-drift {
-  0%,
-  100% {
-    rotate: 0deg;
-  }
-  50% {
-    rotate: 4deg;
-  }
-}
-
-.skill-sticker {
-  transform-origin: center center;
-  will-change: transform;
-}
-
-.skill-sticker-motion-a {
-  animation:
-    skill-sticker-float-a 5.5s ease-in-out infinite,
-    skill-sticker-drift 7s ease-in-out infinite;
-}
-
-.skill-sticker-motion-b {
-  animation:
-    skill-sticker-float-b 6.25s ease-in-out infinite,
-    skill-sticker-drift 8.5s ease-in-out infinite reverse;
-  animation-delay: 0.4s, 0.2s;
-}
-
-.skill-sticker-motion-c {
-  animation:
-    skill-sticker-float-c 7s ease-in-out infinite,
-    skill-sticker-drift 6s ease-in-out infinite;
-  animation-delay: 0.8s, 0.5s;
-}
-
-.skill-sticker-motion-d {
-  animation:
-    skill-sticker-float-d 6.75s ease-in-out infinite,
-    skill-sticker-drift 9s ease-in-out infinite reverse;
-  animation-delay: 1.2s, 0.7s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skill-sticker-motion-a,
-  .skill-sticker-motion-b,
-  .skill-sticker-motion-c,
-  .skill-sticker-motion-d {
-    animation: none;
-  }
 }

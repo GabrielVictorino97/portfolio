@@ -34,21 +34,21 @@ export function Hero() {
 
         <div className="min-w-0 text-center sm:text-left">
           {profile.available && (
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-[13px] font-medium text-brand">
               <span className="availability-dot h-1.5 w-1.5 rounded-full bg-brand" />
               Disponível para projetos
             </span>
           )}
 
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">{profile.name}</h1>
-          <p className="mt-2 font-mono text-sm text-brand sm:text-base">{profile.headline}</p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <h1 className="t-display mt-4">{profile.name}</h1>
+          <p className="mt-3 font-mono text-[15px] text-brand">{profile.headline}</p>
+          <p className="t-meta mt-1 text-muted-foreground">
             {profile.company} · {profile.location}
           </p>
         </div>
       </div>
 
-      <p className="mt-7 max-w-2xl text-center text-base leading-relaxed text-muted-foreground sm:text-left sm:text-lg">
+      <p className="t-body mt-7 max-w-2xl text-center text-muted-foreground sm:text-left sm:text-[17px]">
         {profile.bio}
       </p>
 
@@ -88,10 +88,8 @@ export function Hero() {
             key={item.label}
             className="card-lift rounded-xl border border-border bg-card/50 px-4 py-4 text-center backdrop-blur-sm sm:text-left"
           >
-            <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              {item.label}
-            </dt>
-            <dd className="mt-1.5 text-base font-semibold text-foreground">{item.value}</dd>
+            <dt className="t-label text-muted-foreground">{item.label}</dt>
+            <dd className="t-title mt-1.5 text-foreground">{item.value}</dd>
           </div>
         ))}
       </dl>

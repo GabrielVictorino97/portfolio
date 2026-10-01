@@ -38,7 +38,7 @@ export type ProjectItem = {
   problem: string;
   outcome: string;
   stack: string[];
-  status: "producao" | "desenvolvimento" | "entregue";
+  status: "producao" | "desenvolvimento" | "entregue" | "percurso";
   href?: string;
 };
 
@@ -132,6 +132,16 @@ export const profile = {
       stack: ["React 19", "TypeScript", "IndexedDB", "Supabase", "Vitest", "Cloudflare"],
       status: "producao",
       href: "https://timesheet-pessoal.gavictorino97.workers.dev/",
+    },
+    {
+      name: "Trilha AI Engineer",
+      tagline: "Formação em IA aplicada, registrada em público",
+      problem:
+        "IA generativa virou parte do trabalho de engenharia, para construir produtos e para desenvolver software. Aprender de forma solta, por vídeo e tutorial, não deixa nada que se possa mostrar.",
+      outcome:
+        "Trilha em sete fases (LLMs e tool calling, RAG, evals e observabilidade, agentes e MCP, produção e LGPD), com uma frente paralela sobre agentes de código como ferramenta de desenvolvimento. Cada fase fecha com um projeto real. O progresso fica numa ferramenta própria: servidor Node sem dependências, dados versionados no Git.",
+      stack: ["LLMs", "RAG", "Evals", "Agentes", "MCP", "Claude Code", ".NET"],
+      status: "percurso",
     },
     {
       name: "Este portfólio",

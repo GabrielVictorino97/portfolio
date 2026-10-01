@@ -7,12 +7,14 @@ const STATUS_LABEL: Record<ProjectItem["status"], string> = {
   producao: "Em produção",
   desenvolvimento: "Em desenvolvimento",
   entregue: "Entregue",
+  percurso: "Em percurso",
 };
 
 const STATUS_DOT: Record<ProjectItem["status"], string> = {
   producao: "bg-brand",
   desenvolvimento: "bg-amber-400",
   entregue: "bg-sky-400",
+  percurso: "bg-violet-400",
 };
 
 /**

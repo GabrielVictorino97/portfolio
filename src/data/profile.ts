@@ -68,7 +68,6 @@ export const profile = {
   location: "Matão, São Paulo — Brasil",
   /** Início da carreira — o tempo de experiência é derivado daqui, nunca digitado à mão. */
   careerStart: "Nov 2019",
-  available: true,
   bio: "Especialista em sistemas backend escaláveis com C#, .NET Core e Python. Atuo na liderança técnica de squads, arquitetura de software, APIs, microserviços e boas práticas — do código à entrega em produção.",
   contacts: [
     {

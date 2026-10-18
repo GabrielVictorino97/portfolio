@@ -61,8 +61,8 @@
   --border: oklch(0.26 0.008 260);
   --input: oklch(0.26 0.008 260);
   --ring: oklch(0.5 0.01 260);
-  /* Único acento do site. Já era usado no ponto de "disponível"; passa a
-     marcar também CTA principal, âncoras de seção e estado atual na timeline.
+  /* Único acento do site: CTA principal, âncoras de seção e estado atual na
+     timeline.
      Contrastes verificados: 12,57:1 sobre o fundo, 11,34:1 do texto
      sobre ele. Ambos passam AA para texto normal. */
   --brand: oklch(0.83 0.16 163);
@@ -178,8 +178,8 @@
   }
 }
 
-/* Pulso do indicador de disponibilidade. */
-@keyframes availability-pulse {
+/* Pulso do marcador do cargo atual na timeline. */
+@keyframes current-pulse {
   0%,
   100% {
     opacity: 1;
@@ -191,12 +191,12 @@
   }
 }
 
-.availability-dot {
-  animation: availability-pulse 2.4s ease-in-out infinite;
+.current-dot {
+  animation: current-pulse 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .availability-dot {
+  .current-dot {
     animation: none;
   }
 }

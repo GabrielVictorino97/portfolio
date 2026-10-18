@@ -1,15 +1,12 @@
-import { ArrowDown, Mail } from "lucide-react";
+import { ArrowDown, Github } from "lucide-react";
 
-import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import gabrielPhoto from "@/assets/gabriel.png";
 import { profile } from "@/data/profile";
 import { resolveContacts } from "@/lib/contacts";
 import { formatExperienceYears } from "@/lib/duration";
 
 export function Hero() {
-  const contacts = resolveContacts(profile.contacts);
-  const whatsapp = contacts.find((contact) => contact.icon === "whatsapp");
-  const email = contacts.find((contact) => contact.icon === "mail");
+  const github = resolveContacts(profile.contacts).find((contact) => contact.icon === "github");
 
   const highlights = [
     { label: "Experiência", value: formatExperienceYears(profile.careerStart) },
@@ -33,14 +30,7 @@ export function Hero() {
         </div>
 
         <div className="min-w-0 text-center sm:text-left">
-          {profile.available && (
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-[13px] font-medium text-brand">
-              <span className="availability-dot h-1.5 w-1.5 rounded-full bg-brand" />
-              Disponível para projetos
-            </span>
-          )}
-
-          <h1 className="t-display mt-4">{profile.name}</h1>
+          <h1 className="t-display sm:mt-4">{profile.name}</h1>
           <p className="mt-3 font-mono text-[15px] text-brand">{profile.headline}</p>
           <p className="t-meta mt-1 text-muted-foreground">
             {profile.company} · {profile.location}
@@ -53,33 +43,24 @@ export function Hero() {
       </p>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        {whatsapp && (
-          <a
-            href={whatsapp.href}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            Chamar no WhatsApp
-          </a>
-        )}
-        {email && (
-          <a
-            href={email.href}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card/60 px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-foreground/25 hover:bg-accent"
-          >
-            <Mail className="h-4 w-4" />
-            Enviar e-mail
-          </a>
-        )}
         <a
           href="#projetos"
-          className="inline-flex items-center justify-center gap-2 px-2 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
         >
           <ArrowDown className="h-4 w-4" />
           Ver projetos
         </a>
+        {github && (
+          <a
+            href={github.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card/60 px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-foreground/25 hover:bg-accent"
+          >
+            <Github className="h-4 w-4" />
+            GitHub
+          </a>
+        )}
       </div>
 
       <dl className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3">

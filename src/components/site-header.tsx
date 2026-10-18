@@ -1,23 +1,11 @@
-import { Menu } from "lucide-react";
+import { Github, Menu } from "lucide-react";
 
-import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { profile } from "@/data/profile";
 import { resolveContacts } from "@/lib/contacts";
 
-function AvailabilityBadge({ long = false }: { long?: boolean }) {
-  if (!profile.available) return null;
-
-  return (
-    <span className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
-      <span className="availability-dot h-1.5 w-1.5 rounded-full bg-brand" />
-      {long ? "Disponível para projetos" : "Disponível"}
-    </span>
-  );
-}
-
 export function SiteHeader() {
-  const whatsapp = resolveContacts(profile.contacts).find((contact) => contact.icon === "whatsapp");
+  const github = resolveContacts(profile.contacts).find((contact) => contact.icon === "github");
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/85 backdrop-blur-md supports-[backdrop-filter]:bg-background/70">
@@ -42,19 +30,17 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          {/* Sem CTA em caixa aqui: o header é texto mono puro, e qualquer
-              botão com fundo ou borda neste espaço destoa. O contato já está
-              coberto duas vezes — "Contato" na nav e o botão flutuante, que
-              acompanha a rolagem inteira. */}
-          {whatsapp && (
+          {/* Só o glifo, sem caixa: o header é texto mono puro, e qualquer
+              botão com fundo ou borda neste espaço destoa. */}
+          {github && (
             <a
-              href={whatsapp.href}
+              href={github.href}
               target="_blank"
               rel="noreferrer noopener"
-              aria-label="Falar no WhatsApp"
+              aria-label="GitHub"
               className="hidden text-muted-foreground transition-colors hover:text-brand sm:block"
             >
-              <WhatsAppIcon className="h-4 w-4" />
+              <Github className="h-4 w-4" />
             </a>
           )}
 
@@ -83,20 +69,19 @@ export function SiteHeader() {
                 ))}
               </nav>
 
-              <div className="mt-6 space-y-4 border-t border-border pt-5">
-                <AvailabilityBadge long />
-                {whatsapp && (
+              {github && (
+                <div className="mt-6 border-t border-border pt-5">
                   <a
-                    href={whatsapp.href}
+                    href={github.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground"
+                    className="flex items-center gap-2 rounded-md px-3 py-2.5 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                   >
-                    <WhatsAppIcon className="h-4 w-4" />
-                    Chamar no WhatsApp
+                    <Github className="h-4 w-4" />
+                    GitHub
                   </a>
-                )}
-              </div>
+                </div>
+              )}
             </SheetContent>
           </Sheet>
         </div>

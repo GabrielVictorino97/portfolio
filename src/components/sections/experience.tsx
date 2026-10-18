@@ -18,7 +18,7 @@ export function Experience() {
             <li key={group.company} className="relative pb-10 last:pb-0">
               <span
                 className={`absolute -left-[25px] top-1.5 h-3 w-3 rounded-full border-2 border-background ${
-                  isCurrent ? "availability-dot bg-brand" : "bg-muted-foreground/50"
+                  isCurrent ? "current-dot bg-brand" : "bg-muted-foreground/50"
                 }`}
               />
 

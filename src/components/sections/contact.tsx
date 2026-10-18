@@ -77,7 +77,7 @@ export function Contact() {
       id="contato"
       number="05"
       title="Contato"
-      subtitle="Vamos conversar sobre projetos, oportunidades ou troca técnica. Respondo em até um dia útil."
+      subtitle="Para trocar ideia sobre algum dos projetos ou sobre tecnologia."
     >
       {primary.length > 0 && (
         <div className="grid gap-3 sm:grid-cols-2">
